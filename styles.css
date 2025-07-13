@@ -1,0 +1,2592 @@
+:root {
+    --cor-primaria: #ffc107;
+    --cor-secundaria: rgb(15, 14, 14);
+    --cor-fundo: #050505;
+    --cor-texto: #f5f5f5;
+    --cor-texto-claro: rgba(255, 255, 255, 0.7);
+    --cor-hover: #ffc107;
+    --cor-sombra: rgba(0, 0, 0, 0.5);
+    --cor-borda-categoria: rgba(255, 193, 7, 0.5);
+    --altura-header: 60px;
+    /* Variável para altura do header */
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+}
+
+.header {
+    background-color: #1a1919;
+    padding: 0 20px;
+    height: var(--altura-header);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* Transição para suavizar mudanças de altura, se houver */
+    transition: height 0.3s ease-in-out;
+}
+
+/* Styles for the new animated hamburger menu */
+.menu-hamburger {
+    color: var(--cor-texto);
+    cursor: pointer;
+    order: -1;
+    margin-right: 15px;
+    padding: 10px;
+    /* Clickable area padding */
+    width: 24px;
+    /* Icon width */
+    height: 18px;
+    /* Icon height (3 lines * 2px height + 2 * 6px space between) - Ajustado para 18px para melhor visual */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Distributes the spans vertically */
+    position: relative;
+    background: transparent;
+    border: none;
+    box-sizing: content-box;
+    /* Padding is outside width/height */
+    -webkit-tap-highlight-color: transparent;
+    /* Remove tap highlight on mobile */
+}
+
+.menu-hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    /* Thickness of the lines */
+    background-color: var(--cor-texto);
+    border-radius: 3px;
+    /* Rounded ends for the lines */
+    transition: all 0.3s ease-in-out;
+    transform-origin: center;
+    /* Ensures rotation is centered */
+}
+
+/* Animation: Hamburger to X */
+.menu-hamburger.aberto span:nth-child(1) {
+    /* Ajuste no translateY para centralizar o X */
+    transform: translateY(8px) rotate(45deg);
+}
+
+.menu-hamburger.aberto span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-100%);
+    /* Optional: slide out */
+}
+
+.menu-hamburger.aberto span:nth-child(3) {
+    /* Ajuste no translateY para centralizar o X */
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+
+.logo {
+    font-size: 24px;
+    color: var(--cor-primaria);
+    text-align: center;
+    flex-grow: 1;
+}
+
+.header-direita {
+    display: flex;
+    align-items: center;
+    order: 1;
+}
+
+.search-icon-link {
+    color: var(--cor-texto);
+    font-size: 18px;
+    padding: 10px;
+    /* Aumentar área de clique */
+    display: flex;
+    /* Para centralizar o ícone se necessário */
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon-link:hover {
+    color: var(--cor-hover);
+}
+
+.menu-dropdown {
+    position: fixed;
+    top: var(--altura-header);
+    left: 0;
+    width: 100%;
+    background-color: #1c1c1c;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out 0.1s, visibility 0s linear 0.4s;
+}
+
+.menu-dropdown.aberto {
+    max-height: calc(100vh - var(--altura-header));
+    opacity: 1;
+    visibility: visible;
+    overflow-y: auto;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-in, visibility 0s linear 0s;
+}
+
+.menu-dropdown a {
+    display: flex;
+    align-items: center;
+    padding: 18px 25px;
+    text-decoration: none;
+    color: var(--cor-texto-claro);
+    font-size: 16px;
+    border-bottom: 1px solid #282828;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.menu-dropdown a i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+    color: var(--cor-primaria);
+}
+
+.menu-dropdown a:last-child {
+    border-bottom: none;
+}
+
+.menu-dropdown a:hover {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-primaria);
+}
+
+.menu-dropdown a:hover i {
+    color: var(--cor-primaria);
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+.search-bar {
+    position: fixed;
+    top: var(--altura-header);
+    left: 0;
+    width: 100%;
+    /* Removido padding inicial para transição mais suave */
+    background-color: #111;
+    z-index: 998;
+    box-sizing: border-box;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    /* Adicionado padding à transição */
+    transition: max-height 0.35s ease-out, opacity 0.35s ease-out, padding 0.35s ease-out, visibility 0s linear 0.35s;
+}
+
+.search-bar.visible {
+    /* Nova classe para controlar visibilidade e transições */
+    max-height: 100px;
+    /* Altura suficiente para o input */
+    opacity: 1;
+    visibility: visible;
+    padding: 15px 20px;
+    /* Padding aplicado quando visível */
+    transition: max-height 0.35s ease-in, opacity 0.35s ease-in, padding 0.35s ease-in, visibility 0s linear 0s;
+}
+
+
+.search-bar-container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.search-bar-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cor-texto-claro);
+    font-size: 16px;
+    z-index: 1;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 20px 12px 45px;
+    font-size: 16px;
+    border: 1px solid var(--cor-secundaria);
+    border-radius: 25px;
+    background-color: var(--cor-secundaria);
+    color: var(--cor-texto);
+    box-sizing: border-box;
+    outline: none;
+}
+
+.search-bar input:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
+}
+
+.search-bar input::placeholder {
+    color: var(--cor-texto-claro);
+    opacity: 0.7;
+}
+
+.main {
+    padding: 20px;
+    /* Adiciona padding para evitar que o conteúdo fique sob o header fixo inicialmente */
+    /* padding-top: calc(var(--altura-header) + 20px); */
+    /* Comentado pois o header é sticky, não fixed cobrindo */
+}
+
+
+.sessao-slides {
+    margin-bottom: 30px;
+}
+
+.slides-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px var(--cor-sombra);
+    background-color: var(--cor-secundaria);
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.slide.ativo {
+    opacity: 1;
+    z-index: 1;
+}
+
+.slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide-info {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.205);
+    color: var(--cor-texto);
+    padding: 10px 15px;
+    border-radius: 5px;
+    z-index: 3;
+    text-align: left;
+}
+
+.slide-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.4em;
+    color: var(--cor-primaria);
+}
+
+.slide-info p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.barra-progresso {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background-color: var(--cor-primaria);
+    width: 0;
+    z-index: 2;
+    /* Transition will be set by JavaScript */
+}
+
+.indicadores {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.indicador {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #aaa;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.indicador.ativo {
+    background-color: var(--cor-primaria);
+}
+
+.cabecalho-sessao-home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.titulo-sessao-home {
+    font-size: 20px;
+    color: var(--cor-primaria);
+    margin-bottom: 0;
+    position: relative;
+    padding-left: 15px;
+}
+
+.titulo-sessao-home::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 20px;
+    background-color: var(--cor-primaria);
+    border-radius: 2px;
+}
+
+.btn-ver-tudo {
+    background-color: transparent;
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-primaria);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-ver-tudo:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+.sessao-categorias,
+.sessao-filmes,
+.sessao-series {
+    margin-bottom: 30px;
+}
+
+.categorias-container,
+.filmes-container-home,
+.series-container-home {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 5px;
+    gap: 15px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.categorias-container::-webkit-scrollbar,
+.filmes-container-home::-webkit-scrollbar,
+.series-container-home::-webkit-scrollbar {
+    height: 8px;
+}
+
+.categorias-container::-webkit-scrollbar-thumb,
+.filmes-container-home::-webkit-scrollbar-thumb,
+.series-container-home::-webkit-scrollbar-thumb {
+    background-color: var(--cor-primaria);
+    border-radius: 10px;
+}
+
+.categorias-container::-webkit-scrollbar-track,
+.filmes-container-home::-webkit-scrollbar-track,
+.series-container-home::-webkit-scrollbar-track {
+    background-color: var(--cor-secundaria);
+    border-radius: 10px;
+}
+
+.categoria-btn,
+.filme-home,
+.serie-home {
+    flex-shrink: 0;
+}
+
+.categorias-container>.categoria-btn:first-child,
+.filmes-container-home>.filme-home:first-child,
+.series-container-home>.serie-home:first-child {
+    margin-left: 5px;
+}
+
+.categorias-container>.categoria-btn:last-child,
+.filmes-container-home>.filme-home:last-child,
+.series-container-home>.serie-home:last-child {
+    margin-right: 5px;
+}
+
+
+.categoria-btn {
+    background-color: transparent;
+    border: 1px solid var(--cor-borda-categoria);
+    color: var(--cor-primaria);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    font-size: 14px;
+    min-width: 100px;
+    text-align: center;
+}
+
+.categoria-btn:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+    transform: scale(1.05);
+}
+
+.filme-home,
+.serie-home {
+    position: relative;
+    border: 1px solid transparent;
+    min-width: 150px;
+    width: 150px;
+    height: 220px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--cor-secundaria);
+    box-shadow: 0 4px 10px var(--cor-sombra);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.filme-home img,
+.serie-home img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--cor-texto);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    text-align: left;
+}
+
+.filme-home:hover,
+.serie-home:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    border-color: var(--cor-primaria);
+    z-index: 10;
+}
+
+.filme-home:hover .card-overlay,
+.serie-home:hover .card-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.filme-home:hover img,
+.serie-home:hover img {
+    transform: scale(1.1);
+}
+
+.overlay-titulo {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.overlay-ano {
+    font-size: 12px;
+    color: var(--cor-primaria);
+    margin-bottom: 5px;
+}
+
+.overlay-avaliacao-estrelas {
+    font-size: 13px;
+    color: var(--cor-primaria);
+}
+
+.overlay-avaliacao-estrelas .fa-star,
+.overlay-avaliacao-estrelas .fa-star-half-alt,
+.overlay-avaliacao-estrelas .far.fa-star {
+    margin-right: 2px;
+}
+
+.overlay-avaliacao-estrelas .far.fa-star {
+    color: #888;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    border-top: 1px solid var(--cor-secundaria);
+}
+
+/* Media Queries para Responsividade e Itens Maiores */
+@media (max-width: 768px) {
+    .logo {
+        font-size: 20px;
+    }
+
+    .titulo-sessao-home {
+        font-size: 18px;
+        padding-left: 12px;
+    }
+
+    .titulo-sessao-home::before {
+        height: 18px;
+    }
+
+    .btn-ver-tudo {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
+    .filme-home,
+    .serie-home {
+        min-width: 120px;
+        width: 120px;
+        height: 180px;
+    }
+
+    .categoria-btn {
+        min-width: 90px;
+        font-size: 13px;
+        padding: 7px 12px;
+    }
+
+    .overlay-titulo {
+        font-size: 13px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 11px;
+    }
+
+    .slide-info h3 {
+        font-size: 1.2em;
+    }
+
+    .slide-info p {
+        font-size: 0.8em;
+    }
+
+    .menu-dropdown a {
+        font-size: 18px;
+        /* Increased for better tap target */
+        padding: 15px 20px;
+        /* Increased padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 15px;
+    }
+
+    .header {
+        padding: 0 15px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .search-bar.visible {
+        /* Ajuste para telas menores */
+        padding: 10px 15px;
+    }
+
+    .search-bar input {
+        font-size: 14px;
+        padding: 10px 15px 10px 40px;
+    }
+
+    .search-bar-icon {
+        left: 12px;
+        font-size: 14px;
+    }
+
+    .filme-home,
+    .serie-home {
+        min-width: 100px;
+        width: 100px;
+        height: 150px;
+    }
+
+    .categoria-btn {
+        min-width: 80px;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .indicador {
+        width: 8px;
+        height: 8px;
+        margin: 0 3px;
+    }
+
+    .overlay-titulo {
+        font-size: 12px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 10px;
+    }
+
+    .titulo-sessao-home {
+        font-size: 16px;
+        padding-left: 10px;
+    }
+
+    .titulo-sessao::before {
+        height: 16px;
+        width: 4px;
+    }
+
+    .btn-ver-tudo {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .slide-info {
+        padding: 8px 10px;
+        bottom: 5px;
+        left: 5px;
+        right: 5px;
+    }
+
+    .slide-info h3 {
+        font-size: 12px;
+    }
+
+    .slide-info p {
+        font-size: 10px;
+    }
+
+    .menu-dropdown a {
+        font-size: 16px;
+        /* Adjusted for smaller screens */
+        padding: 12px 20px;
+    }
+}
+
+/* Telas Maiores */
+@media (min-width: 992px) {
+
+    /* Large devices (desktops, 992px and up) */
+    .filme-home,
+    .serie-home {
+        min-width: 170px;
+        width: 170px;
+        height: 250px;
+    }
+
+    .categoria-btn {
+        min-width: 120px;
+        font-size: 15px;
+        padding: 10px 18px;
+    }
+
+    .overlay-titulo {
+        font-size: 16px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 13px;
+    }
+
+    .slide-info h3 {
+        font-size: 1.6em;
+    }
+
+    .slide-info p {
+        font-size: 1em;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    /* Extra large devices (large desktops, 1200px and up) */
+    .filme-home,
+    .serie-home {
+        min-width: 190px;
+        width: 190px;
+        height: 280px;
+    }
+
+    .categoria-btn {
+        min-width: 130px;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .overlay-titulo {
+        font-size: 17px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 14px;
+    }
+
+    .titulo-sessao-home {
+        font-size: 22px;
+    }
+
+    .slide-info h3 {
+        font-size: 1.8em;
+    }
+}
+
+@media (min-width: 1400px) {
+
+    /* Telas muito grandes */
+    .filme-home,
+    .serie-home {
+        min-width: 210px;
+        width: 210px;
+        height: 310px;
+    }
+
+    .categoria-btn {
+        min-width: 140px;
+        font-size: 16px;
+        padding: 12px 22px;
+    }
+
+    .overlay-titulo {
+        font-size: 18px;
+    }
+
+    .titulo-sessao-home {
+        font-size: 24px;
+    }
+
+    .slide-info h3 {
+        font-size: 2em;
+    }
+}
+
+
+
+.cabecalho-sessao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.titulo-sessao {
+    font-size: 24px;
+    color: var(--cor-primaria);
+    margin-bottom: 0;
+    position: relative;
+    padding-left: 18px;
+}
+
+.titulo-sessao::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 24px;
+    background-color: var(--cor-primaria);
+    border-radius: 3px;
+}
+
+/* Grid para todos os filmes */
+.grid-filmes-container {
+    display: grid;
+    /* Base para telas menores, será ajustado por media queries */
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    /* Gap base para telas menores */
+    padding: 10px 0;
+    /* Apenas padding vertical, horizontal vem do .main */
+}
+
+/* Estilos dos cards de filme */
+.filme {
+    position: relative;
+    border: 1px solid transparent;
+    /* Width é controlado pelo grid-template-columns */
+    aspect-ratio: 2 / 3;
+    /* Mantém a proporção 2:3 (largura:altura) */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--cor-secundaria);
+    box-shadow: 0 4px 10px var(--cor-sombra);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    /* Height será automático devido ao aspect-ratio e à largura definida pelo grid */
+}
+
+.filme img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--cor-texto);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    text-align: left;
+}
+
+.filme:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    border-color: var(--cor-primaria);
+    z-index: 10;
+}
+
+.filme:hover .card-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.filme:hover img {
+    transform: scale(1.1);
+}
+
+.overlay-titulo {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.overlay-ano {
+    font-size: 12px;
+    color: var(--cor-primaria);
+    margin-bottom: 5px;
+}
+
+.overlay-avaliacao-estrelas {
+    font-size: 13px;
+    color: var(--cor-primaria);
+}
+
+.overlay-avaliacao-estrelas .fa-star,
+.overlay-avaliacao-estrelas .fa-star-half-alt,
+.overlay-avaliacao-estrelas .far.fa-star {
+    margin-right: 2px;
+}
+
+.overlay-avaliacao-estrelas .far.fa-star {
+    color: #888;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    border-top: 1px solid var(--cor-secundaria);
+}
+
+/* Media Queries para Responsividade dos Cards e Grid */
+
+/* Celulares (até 480px) - base já definida acima para grid-template-columns e gap */
+@media (max-width: 480px) {
+    .main {
+        padding: 15px;
+    }
+
+    .header {
+        padding: 0 15px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .search-bar input {
+        font-size: 14px;
+        padding: 10px 15px 10px 40px;
+    }
+
+    .search-bar-icon {
+        left: 12px;
+        font-size: 14px;
+    }
+
+    /* .filme width/min-width é controlado pelo grid */
+    .overlay-titulo {
+        font-size: 12px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 10px;
+    }
+
+    .titulo-sessao {
+        font-size: 20px;
+        padding-left: 12px;
+    }
+
+    .titulo-sessao::before {
+        height: 20px;
+        width: 4px;
+    }
+
+    .menu-dropdown a {
+        font-size: 16px;
+    }
+}
+
+/* Tablets pequenos e celulares maiores (481px até 768px) */
+@media (min-width: 481px) {
+    .grid-filmes-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 20px;
+        /* Aumenta o gap */
+    }
+
+    .overlay-titulo {
+        font-size: 13px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 11px;
+    }
+
+    .titulo-sessao {
+        font-size: 22px;
+        padding-left: 15px;
+    }
+
+    .titulo-sessao::before {
+        height: 22px;
+        width: 5px;
+    }
+
+    .menu-dropdown a {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+}
+
+/* Tablets maiores e desktops pequenos (769px até 991px) */
+@media (min-width: 769px) {
+    .grid-filmes-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    /* Estilos de overlay já definidos na base ou em @media (max-width: 768px) podem ser suficientes
+                ou podem ser ajustados aqui se necessário. */
+}
+
+/* Desktops médios (992px até 1199px) */
+@media (min-width: 992px) {
+    .grid-filmes-container {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    }
+
+    .overlay-titulo {
+        font-size: 16px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 13px;
+    }
+}
+
+/* Desktops grandes (1200px até 1399px) */
+@media (min-width: 1200px) {
+    .grid-filmes-container {
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    }
+
+    .overlay-titulo {
+        font-size: 17px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 14px;
+    }
+
+    .titulo-sessao {
+        font-size: 26px;
+    }
+}
+
+/* Desktops extra grandes (1400px e acima) */
+@media (min-width: 1400px) {
+    .grid-filmes-container {
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    }
+
+    .overlay-titulo {
+        font-size: 18px;
+    }
+
+    .titulo-sessao {
+        font-size: 28px;
+    }
+}
+
+/* Player Area */
+.player-container-wrapper {
+    /* Novo wrapper para player e botão de mudar */
+    margin-bottom: 20px;
+}
+
+.player-area {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-bottom removido daqui, vai para o wrapper */
+}
+
+.player-imagem-fundo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.btn-play-central {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s, border-color 0.3s;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    z-index: 2;
+}
+
+.btn-play-central:hover {
+    color: var(--cor-primaria);
+    transform: scale(1.1);
+    border-color: var(--cor-primaria);
+}
+
+.player-area iframe,
+.player-area .plyr {
+    width: 100%;
+    height: 100%;
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+.btn-mudar-player {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn-mudar-player:hover {
+    background-color: #e0a800;
+    /* Amarelo um pouco mais escuro */
+}
+
+.btn-mudar-player.hidden {
+    display: none;
+}
+
+
+/* Modal do Player */
+.modal-player {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-player-conteudo {
+    background-color: var(--cor-secundaria);
+    margin: auto;
+    padding: 25px;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+}
+
+.btn-fechar-modal {
+    color: var(--cor-texto-claro);
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-fechar-modal:hover {
+    color: var(--cor-primaria);
+}
+
+.modal-player-conteudo h3 {
+    color: var(--cor-primaria);
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.opcoes-player button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-primaria);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.opcoes-player button:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+.opcoes-player button:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Informações do Filme */
+.info-filme-container {
+    margin-bottom: 30px;
+}
+
+.info-filme-titulo {
+    font-size: 28px;
+    color: var(--cor-primaria);
+    margin-bottom: 10px;
+}
+
+.info-filme-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: var(--cor-texto-claro);
+    margin-bottom: 15px;
+}
+
+.info-filme-meta .estrelas-avaliacao {
+    color: var(--cor-primaria);
+}
+
+.info-filme-meta .estrelas-avaliacao .fa-star,
+.info-filme-meta .estrelas-avaliacao .fa-star-half-alt {
+    margin-right: 2px;
+}
+
+.info-filme-meta .estrelas-avaliacao .far.fa-star {
+    color: #777;
+}
+
+.info-filme-sinopse {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--cor-texto-claro);
+    margin-bottom: 20px;
+}
+
+/* Seção de Gêneros (reutilizada) */
+.sessao-generos-filme {
+    margin-bottom: 30px;
+}
+
+.cabecalho-sessao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.titulo-sessao {
+    font-size: 20px;
+    color: var(--cor-primaria);
+    margin-bottom: 0;
+    position: relative;
+    padding-left: 15px;
+}
+
+.titulo-sessao::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 20px;
+    background-color: var(--cor-primaria);
+    border-radius: 2px;
+}
+
+.generos-container-filme {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 5px 0;
+}
+
+.genero-btn-filme {
+    background-color: transparent;
+    border: 1px solid var(--cor-borda-categoria);
+    color: var(--cor-primaria);
+    padding: 6px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 13px;
+}
+
+.genero-btn-filme:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+
+/* Seção de Relacionados (reutilizada) */
+.sessao-relacionados {
+    margin-bottom: 30px;
+}
+
+.filmes-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 5px;
+    gap: 15px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.filmes-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.filmes-container::-webkit-scrollbar-thumb {
+    background-color: var(--cor-primaria);
+    border-radius: 10px;
+}
+
+.filmes-container::-webkit-scrollbar-track {
+    background-color: var(--cor-secundaria);
+    border-radius: 10px;
+}
+
+.filmes-container>.filme:first-child {
+    margin-left: 5px;
+}
+
+.filmes-container>.filme:last-child {
+    margin-right: 5px;
+}
+
+.filme {
+    position: relative;
+    border: 1px solid transparent;
+    min-width: 150px;
+    width: 150px;
+    height: 220px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--cor-secundaria);
+    box-shadow: 0 4px 10px var(--cor-sombra);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.filme img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--cor-texto);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    text-align: left;
+}
+
+.filme:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    border-color: var(--cor-primaria);
+    z-index: 10;
+}
+
+.filme:hover .card-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.filme:hover img {
+    transform: scale(1.1);
+}
+
+.overlay-titulo {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.overlay-ano {
+    font-size: 12px;
+    color: var(--cor-primaria);
+    margin-bottom: 5px;
+}
+
+.overlay-avaliacao-estrelas {
+    font-size: 13px;
+    color: var(--cor-primaria);
+}
+
+.overlay-avaliacao-estrelas .fa-star,
+.overlay-avaliacao-estrelas .fa-star-half-alt,
+.overlay-avaliacao-estrelas .far.fa-star {
+    margin-right: 2px;
+}
+
+.overlay-avaliacao-estrelas .far.fa-star {
+    color: #888;
+}
+
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    border-top: 1px solid var(--cor-secundaria);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .info-filme-titulo {
+        font-size: 24px;
+    }
+
+    .info-filme-meta {
+        font-size: 13px;
+        flex-wrap: wrap;
+    }
+
+    .btn-play-central {
+        font-size: 60px;
+        width: 90px;
+        height: 90px;
+        border-width: 2px;
+    }
+
+    .filme {
+        min-width: 120px;
+        width: 120px;
+        height: 180px;
+    }
+
+    .overlay-titulo {
+        font-size: 13px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 11px;
+    }
+
+    .menu-dropdown a {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 15px;
+    }
+
+    .header {
+        padding: 0 15px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .search-bar input {
+        font-size: 14px;
+        padding: 10px 15px 10px 40px;
+    }
+
+    .search-bar-icon {
+        left: 12px;
+        font-size: 14px;
+    }
+
+    .info-filme-titulo {
+        font-size: 18px;
+    }
+
+    .info-filme-meta span {
+        margin-bottom: 5px;
+        display: block;
+        width: auto;
+    }
+
+    .btn-play-central {
+        font-size: 50px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .filme {
+        min-width: 100px;
+        width: 100px;
+        height: 150px;
+    }
+
+    .overlay-titulo {
+        font-size: 12px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 10px;
+    }
+
+    .titulo-sessao {
+        font-size: 18px;
+    }
+
+    .menu-dropdown a {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 992px) {
+    .filme {
+        min-width: 170px;
+        width: 170px;
+        height: 250px;
+    }
+
+    .overlay-titulo {
+        font-size: 16px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 13px;
+    }
+
+    .genero-btn-filme {
+        font-size: 14px;
+        padding: 7px 14px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .filme {
+        min-width: 190px;
+        width: 190px;
+        height: 280px;
+    }
+
+    .overlay-titulo {
+        font-size: 17px;
+    }
+
+    .overlay-ano,
+    .overlay-avaliacao-estrelas {
+        font-size: 14px;
+    }
+
+    .titulo-sessao {
+        font-size: 22px;
+    }
+
+    .genero-btn-filme {
+        font-size: 15px;
+        padding: 8px 16px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .filme {
+        min-width: 210px;
+        width: 210px;
+        height: 310px;
+    }
+
+    .overlay-titulo {
+        font-size: 18px;
+    }
+
+    .genero-btn-filme {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* separação */
+
+/* Área do Player/Destaque da Série */
+.player-destaque-area {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.serie-backdrop-inicial {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    filter: brightness(0.5);
+}
+
+.serie-destaque-info-sobreposta {
+    position: relative;
+    z-index: 2;
+    padding: 20px 30px;
+    color: var(--cor-texto);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 20%, rgba(0, 0, 0, 0) 100%);
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.serie-destaque-info-sobreposta.hidden {
+    display: none;
+}
+
+.serie-destaque-info-sobreposta h1 {
+    font-size: 2.2em;
+    color: var(--cor-primaria);
+    margin: 0 0 8px 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.serie-destaque-info-sobreposta .meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.serie-destaque-info-sobreposta .meta .estrelas-avaliacao {
+    color: var(--cor-primaria);
+}
+
+.serie-destaque-info-sobreposta .meta .estrelas-avaliacao i {
+    margin-right: 2px;
+}
+
+.serie-destaque-info-sobreposta .meta .estrelas-avaliacao .far.fa-star {
+    color: #777;
+}
+
+.player-destaque-area iframe,
+.player-destaque-area .plyr {
+    width: 100%;
+    height: 100%;
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+.controles-navegacao-episodio {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.controles-navegacao-episodio button {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s;
+}
+
+.controles-navegacao-episodio button:hover {
+    background-color: #e0a800;
+}
+
+.controles-navegacao-episodio button:disabled {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-texto-claro);
+    cursor: not-allowed;
+}
+
+.controles-navegacao-episodio .btn-mudar-player-ep {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-primaria);
+}
+
+.controles-navegacao-episodio .btn-mudar-player-ep:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+
+.modal-player {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-player-conteudo {
+    background-color: var(--cor-secundaria);
+    margin: auto;
+    padding: 25px;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+}
+
+.btn-fechar-modal {
+    color: var(--cor-texto-claro);
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-fechar-modal:hover {
+    color: var(--cor-primaria);
+}
+
+.modal-player-conteudo h3 {
+    color: var(--cor-primaria);
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Os botões de player são gerados por JS, mas o container está aqui */
+.opcoes-player button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-primaria);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.opcoes-player button:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+.opcoes-player button:last-child {
+    margin-bottom: 0;
+}
+
+#noPlayerOptionsMsg {
+    color: var(--cor-texto-claro);
+}
+
+
+.info-serie-fixa-container {
+    margin-bottom: 30px;
+}
+
+.info-serie-fixa-titulo {
+    font-size: 28px;
+    color: var(--cor-primaria);
+    margin-bottom: 10px;
+}
+
+.info-serie-fixa-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: var(--cor-texto-claro);
+    margin-bottom: 15px;
+}
+
+.info-serie-fixa-meta .estrelas-avaliacao {
+    color: var(--cor-primaria);
+}
+
+.info-serie-fixa-meta .estrelas-avaliacao .fa-star,
+.info-serie-fixa-meta .estrelas-avaliacao .fa-star-half-alt {
+    margin-right: 2px;
+}
+
+.info-serie-fixa-meta .estrelas-avaliacao .far.fa-star {
+    color: #777;
+}
+
+.info-serie-fixa-sinopse {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--cor-texto-claro);
+    margin-bottom: 20px;
+}
+
+
+.temporadas-episodios-container {
+    margin-bottom: 30px;
+}
+
+.botoes-temporadas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-temporada {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-texto-claro);
+    border: 1px solid var(--cor-secundaria);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.btn-temporada:hover,
+.btn-temporada.ativo {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+    border-color: var(--cor-primaria);
+}
+
+.lista-episodios {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-episodios li {
+    height: auto;
+    /* Deixa a altura se ajustar ao conteúdo */
+    background-color: rgb(15, 14, 14);
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    /* Alinha o topo da imagem e dos textos */
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.image-ep {
+    flex-shrink: 0;
+    /* Impede que a imagem encolha */
+}
+
+.image-ep img {
+    border-radius: 5px;
+    height: 100px;
+    width: 170px;
+    object-fit: cover;
+}
+
+.ep-numero-titulo {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 10px;
+    flex: 1;
+    padding-top: 2px;
+}
+
+.ep-numero {
+    font-weight: bold;
+    color: var(--cor-primaria);
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.ep-titulo {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.ep-numero-titulo span:last-child {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.btn-play-ep {
+    font-size: 20px;
+    color: var(--cor-texto-claro);
+    transition: color 0.2s;
+    margin-left: 10px;
+    margin-top: 4px;
+}
+
+.lista-episodios li:hover {
+    background-color: #444;
+}
+
+
+.lista-episodios li:hover .btn-play-ep {
+    color: var(--cor-primaria);
+}
+
+
+.sessao-generos-serie {
+    margin-bottom: 30px;
+}
+
+.generos-container-serie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 5px 0;
+}
+
+.genero-btn-serie {
+    background-color: transparent;
+    border: 1px solid var(--cor-borda-categoria);
+    color: var(--cor-primaria);
+    padding: 6px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 13px;
+}
+
+.genero-btn-serie:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+
+.sessao-relacionados {
+    margin-bottom: 30px;
+}
+
+.cabecalho-sessao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.titulo-sessao {
+    font-size: 20px;
+    color: var(--cor-primaria);
+    margin-bottom: 0;
+    position: relative;
+    padding-left: 15px;
+}
+
+.titulo-sessao::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 20px;
+    background-color: var(--cor-primaria);
+    border-radius: 2px;
+}
+
+.btn-ver-tudo {
+    background-color: transparent;
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-primaria);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-ver-tudo:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+.series-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 5px;
+    gap: 15px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.series-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.series-container::-webkit-scrollbar-thumb {
+    background-color: var(--cor-primaria);
+    border-radius: 10px;
+}
+
+.series-container::-webkit-scrollbar-track {
+    background-color: var(--cor-secundaria);
+    border-radius: 10px;
+}
+
+.series-container>.serie:first-child {
+    margin-left: 5px;
+}
+
+.series-container>.serie:last-child {
+    margin-right: 5px;
+}
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .serie-destaque-info-sobreposta h1 {
+        font-size: 1.8em;
+    }
+
+    .serie-destaque-info-sobreposta .meta {
+        font-size: 0.85em;
+    }
+
+    .info-serie-fixa-titulo {
+        font-size: 24px;
+    }
+
+    .info-serie-fixa-meta {
+        font-size: 13px;
+        flex-wrap: wrap;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .episodios-scroll {
+        overflow-x: auto;
+        padding-bottom: 10px;
+        scrollbar-width: thin;
+        /* Firefox */
+        scrollbar-color: var(--cor-primaria) #222;
+        /* Firefox */
+    }
+
+    .episodios-scroll::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .episodios-scroll::-webkit-scrollbar-track {
+        background: #222;
+        border-radius: 4px;
+    }
+
+    .episodios-scroll::-webkit-scrollbar-thumb {
+        background-color: var(--cor-primaria);
+        border-radius: 4px;
+    }
+
+    .episodios-scroll::-webkit-scrollbar-thumb:hover {
+        background-color: #888;
+    }
+
+    .lista-episodios {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 10px;
+        width: max-content;
+    }
+
+    .ep-numero-titulo span {
+        margin: 0;
+        padding: 0;
+    }
+
+    .ep-numero-titulo {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+
+    .lista-episodios li {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* <- mantém tudo alinhado à esquerda */
+        justify-content: flex-start;
+        min-width: 170px;
+        max-width: 180px;
+        background-color: var(--cor-secundaria);
+        padding: 10px;
+        /* padding só vertical */
+        border-radius: 5px;
+    }
+
+    .image-ep img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .ep-numero-titulo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0;
+        /* zera o padding */
+        margin-top: 5px;
+        /* dá um respiro depois da imagem */
+        width: 100%;
+        /* ocupa toda a largura como a imagem */
+    }
+
+    .ep-numero {
+        font-weight: bold;
+        color: var(--cor-primaria);
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+
+    .ep-titulo {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 4px;
+        white-space: normal;
+    }
+
+    .ep-numero-titulo span:last-child {
+        font-size: 13px;
+        color: #aaa;
+    }
+
+    .btn-play-ep {
+        align-self: flex-end;
+        margin-top: auto;
+        font-size: 18px;
+        color: var(--cor-texto-claro);
+    }
+
+    .lista-episodios li:hover .btn-play-ep {
+        color: var(--cor-primaria);
+    }
+
+    .info-serie-fixa-titulo {
+        font-size: 18px;
+    }
+
+    .info-serie-fixa-meta span {
+        margin-bottom: 5px;
+        display: block;
+        width: auto;
+    }
+
+    .botoes-temporadas {
+        justify-content: flex-start;
+    }
+
+    .controles-navegacao-episodio button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .ep-numero,
+    .ep-titulo {
+        font-size: 14px;
+    }
+
+    .titulo-sessao {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .genero-btn-serie {
+        font-size: 14px;
+        padding: 7px 14px;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    .genero-btn-serie {
+        font-size: 15px;
+        padding: 8px 16px;
+    }
+}
+
+@media (min-width: 1400px) {
+
+    .genero-btn-serie {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}
+
+/* Estilos da Paginação */
+.paginacao-container {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Evita quebra das páginas */
+    justify-content: flex-start;
+    /* Alinha ao início para scroll */
+    align-items: center;
+    padding: 20px 0;
+    margin-top: 30px;
+    list-style: none;
+    gap: 6px;
+    min-width: max-content;
+    /* Garante que ultrapasse e ative scroll */
+}
+
+
+.paginacao-item {
+    margin: 0 4px;
+}
+
+.paginacao-link {
+    display: flex;
+    /* Para centralizar o ícone/texto */
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    /* Largura mínima para botões numéricos e de seta */
+    height: 38px;
+    padding: 0 10px;
+    /* Padding horizontal para números maiores */
+    text-decoration: none;
+    color: var(--cor-texto-claro);
+    background-color: var(--cor-secundaria);
+    border: 1px solid var(--cor-secundaria);
+    /* Borda sutil */
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.paginacao-link:hover {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+    border-color: var(--cor-primaria);
+}
+
+.paginacao-link.ativo {
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo);
+    border-color: var(--cor-primaria);
+    font-weight: bold;
+    cursor: default;
+    /* Indica que é a página atual */
+}
+
+.paginacao-link.desabilitado {
+    color: #666;
+    /* Cor mais escura para indicar desabilitado */
+    background-color: #222;
+    /* Fundo mais escuro */
+    border-color: #222;
+    cursor: not-allowed;
+    pointer-events: none;
+    /* Impede cliques */
+}
+
+.paginacao-link .fas {
+    /* Estilo para ícones dentro dos links */
+    font-size: 12px;
+    /* Ajusta o tamanho do ícone se necessário */
+}
+
+.paginacao-scroll-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 0 10px;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+.paginacao-scroll-wrapper::-webkit-scrollbar {
+    height: 6px;
+    /* Altura da barra horizontal */
+}
+
+.paginacao-scroll-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.paginacao-scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--cor-primaria);
+    border-radius: 10px;
+}
+
+/* Firefox */
+.paginacao-scroll-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cor-primaria) transparent;
+}
+
+
+/* .paginacao-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    list-style: none;
+    gap: 6px;
+    min-width: max-content;
+} */
+
+:root {
+    --cor-primaria: #ffc107; /* Cor principal para preenchimento dos sliders e destaques */
+    --cor-trilho-slider: rgba(255, 255, 255, 0.3); /* Cor do trilho não preenchido */
+    --cor-texto-player: white;
+    --cor-fundo-controles: rgba(0, 0, 0, 0.7);
+}
+
+.custom-player-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #000;
+    overflow: hidden;
+}
+.custom-player-wrapper video {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Ícone de Play/Pause Central */
+.player-overlay-center-playpause {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5; /* Abaixo dos controles inferiores se estiverem visíveis */
+    display: none; /* Escondido por padrão */
+    pointer-events: none; /* O botão interno lida com os cliques */
+}
+.custom-player-wrapper.paused-state .player-overlay-center-playpause {
+    display: block; /* Mostra quando o player está pausado */
+}
+/* Opcional: Esconde o overlay central se a barra de controles estiver visível E o vídeo pausado */
+.custom-player-wrapper.paused-state .player-custom-controls-bar:not(.controls-hidden) ~ .player-overlay-center-playpause {
+    /* display: none; */ /* Descomente se preferir este comportamento */
+}
+
+.btn-central-playpause {
+    background: rgba(0, 0, 0, 0.55);
+    border: 2px solid var(--cor-texto-player, white);
+    color: var(--cor-texto-player, white);
+    border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: all; /* Habilita cliques no botão */
+    opacity: 0.9;
+    transition: opacity 0.2s, transform 0.2s;
+}
+.btn-central-playpause:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+.btn-central-playpause svg {
+    width: 38px;
+    height: 38px;
+    fill: var(--cor-texto-player, white);
+}
+.btn-central-playpause .hidden {
+    display: none;
+}
+
+
+.player-custom-controls-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10; /* Acima do overlay central */
+}
+.player-custom-controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background-color: var(--cor-fundo-controles);
+    color: var(--cor-texto-player);
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+.player-custom-controls-bar.controls-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.controls-left, .controls-center, .controls-right {
+    display: flex;
+    align-items: center;
+}
+.controls-center {
+    flex-grow: 1;
+    margin: 0 10px;
+}
+
+.control-button {
+    background: none;
+    border: none;
+    color: var(--cor-texto-player);
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.control-button svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--cor-texto-player);
+}
+.control-button .hidden {
+    display: none;
+}
+
+/* Estilização dos Sliders (Barra de Progresso e Volume) */
+.progress-bar, .volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%; /* .volume-slider terá largura específica abaixo */
+    height: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    /* Fundo inicial, será sobrescrito pelo JS */
+    background: linear-gradient(to right, var(--cor-primaria) 0%, var(--cor-trilho-slider) 0%);
+    transition: background 0.1s ease-in-out; /* Suaviza a mudança de fundo */
+}
+.volume-slider {
+    width: 70px;
+    height: 6px;
+    margin-left: 8px;
+    border-radius: 3px;
+}
+
+/* Thumb (bolinha) para WebKit (Chrome, Safari, Edge) */
+.progress-bar::-webkit-slider-thumb,
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px; /* Tamanho do thumb da barra de progresso */
+    height: 14px;
+    background: var(--cor-primaria);
+    border-radius: 50%;
+    border: 2px solid var(--cor-fundo-controles); /* Borda para destacar */
+    cursor: pointer;
+    margin-top: -3px; /* Ajuste para centralizar o thumb na track de 8px */
+}
+.volume-slider::-webkit-slider-thumb {
+    width: 12px; /* Tamanho do thumb do volume */
+    height: 12px;
+    margin-top: -3px; /* Ajuste para centralizar o thumb na track de 6px */
+}
+
+/* Thumb para Firefox */
+.progress-bar::-moz-range-thumb,
+.volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--cor-primaria);
+    border-radius: 50%;
+    border: 2px solid var(--cor-fundo-controles);
+    cursor: pointer;
+}
+.volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+}
+
+/* Track (trilho) - O JS já cuida do preenchimento com gradient.
+   Estes são mais para remover estilos padrão se necessário, mas o JS é prioritário.
+.progress-bar::-webkit-slider-runnable-track { background: transparent; }
+.progress-bar::-moz-range-track { background: transparent; }
+*/
+
+.time-display {
+    font-size: 0.9em;
+    margin: 0 10px;
+}
+.volume-control-wrapper {
+    display: flex;
+    align-items: center;
+}
+.custom-player-wrapper.fullscreen-active { /* Sem mudanças específicas aqui por enquanto */ }
