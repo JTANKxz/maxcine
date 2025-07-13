@@ -1,2 +1,2 @@
 # maxcine
-É neu sitre de filmes e séries
+É meu site de filmes e séries
