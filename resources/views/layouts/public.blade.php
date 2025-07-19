@@ -5,17 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', config('app.name'))</title>
+
+    <title>{{ $meta_title ?? (View::hasSection('title') ? trim($__env->yieldContent('title')) : config('app.name')) }}
+    </title>
+    <meta name="description"
+        content="{{ $meta_description ?? 'Assista filmes e séries online grátis. Lançamentos, populares e muito mais.' }}">
+    <meta name="keywords" content="{{ $meta_keywords ?? 'filmes, séries, assistir, online, streaming' }}">
+
+    {{-- Open Graph / Facebook / WhatsApp --}}
+    <meta property="og:title" content="{{ $meta_title ?? config('app.name') }}">
+    <meta property="og:description" content="{{ $meta_description ?? 'Assista agora no nosso site!' }}">
+    <meta property="og:image" content="{{ $meta_image ?? asset('logo.jpg') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="video.movie">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $meta_title ?? config('app.name') }}">
+    <meta name="twitter:description" content="{{ $meta_description ?? 'Assista agora no nosso site!' }}">
+    <meta name="twitter:image" content="{{ $meta_image ?? asset('logo.jpg') }}">
+
+    {{-- Canonical --}}
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    {{-- CSS --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="{{ asset('styles.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('extras.css') }}?v={{ time() }}">
+    @yield('structured-data')
 </head>
+
 
 <body>
     <header class="header">

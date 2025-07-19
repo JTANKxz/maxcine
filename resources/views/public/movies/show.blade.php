@@ -1,8 +1,35 @@
 @extends('layouts.public')
 
-@section('title', "Assistir Filme {$movie->title} - " . config('app.name'))
+@section('title', "Assistir Filme {$movie->title} - online" . config('app.name'))
+
+@php
+    $meta_title = "Assistir {$movie->title} - online grátis" . config('app.name');
+    $meta_description = Str::limit($movie->overview, 150) ?: 'Veja os detalhes do filme e assista agora online.';
+    $meta_keywords = implode(', ', $movie->genres->pluck('name')->toArray()) . ', assistir, filme, online, ' . $movie->title;
+    $meta_image = $movie->poster_url ?? asset('logo.jpg');
+@endphp
 
 @section('content')
+
+    @section('structured-data')
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Movie",
+                "name": "{{ $movie->title }}",
+                "image": "{{ $movie->poster_url }}",
+                "description": "{{ Str::limit($movie->overview, 200) }}",
+                "datePublished": "{{ $movie->year }}",
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "{{ number_format($movie->rating / 2, 1) }}",
+                    "bestRating": "5",
+                    "ratingCount": 1000
+                },
+                "genre": {!! json_encode($movie->genres->pluck('name')->toArray()) !!}
+            }
+            </script>
+    @endsection
 
     <style>
         .info-filme-header {

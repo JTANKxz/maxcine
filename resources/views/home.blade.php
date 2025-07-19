@@ -2,6 +2,13 @@
 
 @section('title', 'Início - ' . config('app.name'))
 
+@php
+    $meta_title = 'Início - ' . config('app.name');
+    $meta_description = 'Assista aos melhores filmes e séries gratuitamente. Atualizado diariamente com os últimos lançamentos.';
+    $meta_keywords = 'assistir filmes dublado, assistir filmes online grátis, assistir, séries online grátis, filmes online grátis, séries online grátis, assistir online, assistir online grátis, lançamento, hd, 2025';
+    $meta_image = $sliders->first()->backdrop_url ?? asset('logo.jpg');
+@endphp
+
 @section('content')
     <section class="sessao-slides">
         {{-- <div class="cabecalho-sessao-home">
