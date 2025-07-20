@@ -73,14 +73,12 @@
                 <a href="{{ route('dashboard') }}"><i class="fa-solid fa-lock"></i>Painel Admin</a>
             @endif
             <!-- Comum a todos autenticados -->
+            <a href="{{ route('user.profile') }}"><i class="fa-solid fa-user"></i>Perfil</a>
             <a href="{{ route('auth.destroy') }}"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
         @else
             <!-- Visível apenas para visitantes (não logados) -->
             <a href="{{ route('login') }}"><i class="fa-solid fa-user"></i>Login</a>
         @endauth
-        {{-- <a href="#"><i class="fa-solid fa-grip"></i>Categorias</a>
-        <a href="#"><i class="fa-solid fa-list"></i>Minha Lista</a>
-        <a href="#"><i class="fa-solid fa-gear"></i>Configurações</a> --}}
     </nav>
 
 
