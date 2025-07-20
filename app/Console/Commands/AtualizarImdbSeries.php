@@ -11,7 +11,7 @@ class AtualizarImdbSeries extends Command
     protected $signature = 'series:atualizar-imdb';
     protected $description = 'Atualiza o imdb_id de todas as séries salvas no banco usando o TMDB';
 
-    protected $apiKey = 'edcd52275afd8b8c152c82f1ce3933a2'; // substitua pela sua
+    protected $apiKey = 'apikeyhere'; // substitua pela sua
 
     public function handle()
     {
