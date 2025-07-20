@@ -1,9 +1,9 @@
 @extends('layouts.public')
 
-@section('title', "Assistir Filme {$movie->title} - online" . config('app.name'))
+@section('title', "Assistir {$movie->title} online - " . config('app.name'))
 
 @php
-    $meta_title = "Assistir {$movie->title} - online grátis" . config('app.name');
+    $meta_title = "Assistir {$movie->title} online grátis - " . config('app.name');
     $meta_description = Str::limit($movie->overview, 150) ?: 'Veja os detalhes do filme e assista agora online.';
     $meta_keywords = implode(', ', $movie->genres->pluck('name')->toArray()) . ', assistir, filme, online, ' . $movie->title;
     $meta_image = $movie->poster_url ?? asset('logo.jpg');

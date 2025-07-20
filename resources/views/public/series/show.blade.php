@@ -1,9 +1,36 @@
 @extends('layouts.public')
 
-@section('title', "Assistir série {$serie->title} - " . config('app.name'))
+@section('title', "Assistir {$serie->title} - " . config('app.name'))
 
+@php
+    $meta_title = "Assistir {$serie->title} online grátis - " . config('app.name');
+    $meta_description = Str::limit($serie->overview, 150) ?: 'Veja os detalhes da série e assista agora online.';
+    $meta_keywords = implode(', ', $serie->genres->pluck('name')->toArray()) . ', assistir, série, online, ' . $serie->title;
+    $meta_image = $serie->poster_url ?? asset('logo.jpg');
+@endphp
 
 @section('content')
+
+    @section('structured-data')
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "TVSeries",
+                "name": "{{ $serie->title }}",
+                "image": "{{ $serie->poster_url }}",
+                "description": "{{ Str::limit($serie->overview, 200) }}",
+                "datePublished": "{{ $serie->year }}",
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "{{ number_format($serie->rating / 2, 1) }}",
+                    "bestRating": "5",
+                    "ratingCount": 1000
+                },
+                "genre": {!! json_encode($serie->genres->pluck('name')->toArray()) !!}
+            }
+        </script>
+    @endsection
+
     <style>
         .heart-button {
             display: flex;
@@ -657,12 +684,12 @@
                 wrapper.appendChild(video);
 
                 const centralOverlayHTML = `
-                                                                        <div class="player-overlay-center-playpause">
-                                                                            <button class="btn-central-playpause" title="Play/Pause">
-                                                                                <svg class="icon-central-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                                                                <svg class="icon-central-pause hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                                                                            </button>
-                                                                        </div>`;
+                                                                                <div class="player-overlay-center-playpause">
+                                                                                    <button class="btn-central-playpause" title="Play/Pause">
+                                                                                        <svg class="icon-central-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                                                                        <svg class="icon-central-pause hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                                                                    </button>
+                                                                                </div>`;
                 wrapper.insertAdjacentHTML('beforeend', centralOverlayHTML);
 
                 const controlsContainer = document.createElement('div');
@@ -678,24 +705,24 @@
                 const svgFullscreenExit = '<svg class="icon-fullscreen-exit hidden" viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>';
 
                 controlsContainer.innerHTML = `
-                                                                        <div class="player-custom-controls-bar">
-                                                                            <div class="controls-left">
-                                                                                <button class="control-button btn-playpause" title="Play/Pause">${svgPlay}${svgPause}</button>
-                                                                                <button class="control-button btn-backward" title="Voltar 10s">${svgBackward}</button>
-                                                                                <button class="control-button btn-forward" title="Avançar 10s">${svgForward}</button>
-                                                                            </div>
-                                                                            <div class="controls-center">
-                                                                                <input type="range" class="progress-bar" value="0" min="0" step="0.1" title="Progresso">
-                                                                            </div>
-                                                                            <div class="controls-right">
-                                                                                <span class="time-display">0:00 / 0:00</span>
-                                                                                <div class="volume-control-wrapper">
-                                                                                   <button class="control-button btn-volume" title="Volume">${svgVolumeOn}${svgVolumeOff}</button>
-                                                                                   <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="1" title="Controle de Volume">
-                                                                                </div>
-                                                                                <button class="control-button btn-fullscreen" title="Tela Cheia">${svgFullscreenEnter}${svgFullscreenExit}</button>
-                                                                            </div>
-                                                                        </div>`;
+                                                                                <div class="player-custom-controls-bar">
+                                                                                    <div class="controls-left">
+                                                                                        <button class="control-button btn-playpause" title="Play/Pause">${svgPlay}${svgPause}</button>
+                                                                                        <button class="control-button btn-backward" title="Voltar 10s">${svgBackward}</button>
+                                                                                        <button class="control-button btn-forward" title="Avançar 10s">${svgForward}</button>
+                                                                                    </div>
+                                                                                    <div class="controls-center">
+                                                                                        <input type="range" class="progress-bar" value="0" min="0" step="0.1" title="Progresso">
+                                                                                    </div>
+                                                                                    <div class="controls-right">
+                                                                                        <span class="time-display">0:00 / 0:00</span>
+                                                                                        <div class="volume-control-wrapper">
+                                                                                           <button class="control-button btn-volume" title="Volume">${svgVolumeOn}${svgVolumeOff}</button>
+                                                                                           <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="1" title="Controle de Volume">
+                                                                                        </div>
+                                                                                        <button class="control-button btn-fullscreen" title="Tela Cheia">${svgFullscreenEnter}${svgFullscreenExit}</button>
+                                                                                    </div>
+                                                                                </div>`;
                 wrapper.appendChild(controlsContainer);
                 playerDestaqueArea.appendChild(wrapper);
 
