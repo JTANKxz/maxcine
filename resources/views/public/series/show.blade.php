@@ -905,9 +905,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // A função gerarEstrelas pode ser mantida se usada em outros lugares,
-            // mas a lógica de estrelas principal já está no Blade.
-            // function gerarEstrelas(container, avaliacao) { ... }
 
             const botoesTemporadasContainer = document.getElementById('botoesTemporadasContainer');
             if (botoesTemporadasContainer) {
@@ -923,11 +920,8 @@
                 }
             }
 
-            // Lógica de cards, se houver (não diretamente relacionada ao player)
-            // const cards = document.querySelectorAll('.serie'); ...
         });
 
-        // Teclas de atalho globais (mesma lógica da página de filmes)
         document.addEventListener('keydown', (event) => {
             if (!activePlayerWrapper) return;
 

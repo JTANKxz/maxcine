@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\HomeApiController;
+use App\Http\Controllers\Api\V1\MovieApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EpisodePlayLinkController;
@@ -160,3 +161,5 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
 //API ROUTES
 Route::get('/v1/home', [HomeApiController::class, 'index']);
+Route::get('/v1/movies', [MovieApiController::class, 'index']);
+Route::get('/v1/movies/{id}', [MovieApiController::class, 'show']);

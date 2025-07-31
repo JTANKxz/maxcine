@@ -160,4 +160,51 @@
 
         </div>
     </section>
+
+    <section class="sessao-series">
+        <div class="cabecalho-sessao-home">
+            <h2 class="titulo-sessao-home">Séries</h2>
+            <a href="{{ route('series') }}" class="btn-ver-tudo">Ver Tudo</a>
+        </div>
+        <div class="series-container-home">
+            @foreach ($series as $serie)
+                @php
+                    $rating5 = $serie->rating / 2;
+                    $fullStars = floor($rating5);
+                    $halfStar = ($rating5 - $fullStars) >= 0.5;
+                    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                @endphp
+
+                <a href="{{ route('serie.show', ['slug' => $serie->slug]) }}" class="serie-home"
+                    data-titulo-completo="{{ $serie->title }}" data-ano="{{ $serie->year }}"
+                    data-avaliacao="{{ number_format($rating5, 1) }}">
+
+                    <img src="{{ $serie->poster_url }}" alt="{{ $serie->title }}"
+                        onerror="this.onerror=null;this.src='https://placehold.co/150x220/cccccc/000000?text=Poster';">
+
+                    <div class="card-overlay">
+                        <div class="overlay-titulo">{{ $serie->title }}</div>
+                        <div class="overlay-ano">{{ $serie->year }}</div>
+
+                        <div class="overlay-avaliacao-estrelas">
+                            @for ($i = 0; $i < $fullStars; $i++)
+                                <i class="fa-solid fa-star"></i>
+                            @endfor
+
+                            @if ($halfStar)
+                                <i class="fa-solid fa-star-half-alt"></i>
+                            @endif
+
+                            @for ($i = 0; $i < $emptyStars; $i++)
+                                <i class="far fa-star"></i>
+                            @endfor
+
+                            <span class="rating-number">({{ number_format($rating5, 1) }})</span>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+
+        </div>
+    </section>
 @endsection
