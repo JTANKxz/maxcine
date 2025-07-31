@@ -23,9 +23,23 @@ class MovieApiController extends Controller
         $movie = Movie::with('genres')->findOrFail($id);
         $links = MoviePlayLink::where('movie_id', $movie->id)->get();
 
+        // Obtem os gêneros do filme atual
+        $genres = $movie->genres;
+
+        // Busca filmes relacionados por gênero
+        $relatedMovies = Movie::whereHas('genres', function ($query) use ($genres) {
+            $query->whereIn('genres.id', $genres->pluck('id'));
+        })
+            ->where('id', '!=', $movie->id)
+            ->with('genres')
+            ->latest()
+            ->limit(10)
+            ->get();
+
         return response()->json([
             'movie' => $movie,
-            'links' => $links
+            'links' => $links,
+            'related' => $relatedMovies,
         ]);
     }
 }
