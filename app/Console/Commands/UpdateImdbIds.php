@@ -11,7 +11,7 @@ class UpdateImdbIds extends Command
     protected $signature = 'movies:update-imdb';
     protected $description = 'Atualiza o campo imdb_id dos filmes já importados';
 
-    protected $apiKey = 'edcd52275afd8b8c152c82f1ce3933a2'; // ou pegue do env
+    protected $apiKey = 'apikeyhere'; // ou pegue do env
 
     public function handle()
     {
