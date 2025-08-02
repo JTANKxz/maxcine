@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\GenreApiController;
 use App\Http\Controllers\Api\V1\HomeApiController;
 use App\Http\Controllers\Api\V1\MovieApiController;
 use App\Http\Controllers\AuthController;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 //APISUSE
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\Api\V1\MovieController as ApiMovieController;
+use App\Http\Controllers\Api\V1\SerieApiController;
 use App\Http\Controllers\AplicativoController;
 use App\Http\Controllers\OrderController;
 
@@ -163,3 +165,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 Route::get('/v1/home', [HomeApiController::class, 'index']);
 Route::get('/v1/movies', [MovieApiController::class, 'index']);
 Route::get('/v1/movies/{id}', [MovieApiController::class, 'show']);
+
+Route::get('/v1/series', [SerieApiController::class, 'index']);
+Route::get('/v1/series/{id}', [SerieApiController::class, 'show']);
+
+Route::get('/v1/genre/{id}', [GenreApiController::class,'show']);
