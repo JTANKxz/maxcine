@@ -15,9 +15,9 @@ class HomeApiController extends Controller
     {
         $genres = Genre::all();
 
-        $series = Serie::orderBy('year', 'desc')->take(15)->get();
+        $series = Serie::orderBy('id', 'desc')->take(15)->get();
 
-        $movies = Movie::orderBy('year', 'desc')->take(15)->get();
+        $movies = Movie::orderBy('id', 'desc')->take(15)->get();
 
         $sliders = Slider::with([
             'serie' => function ($query) {
