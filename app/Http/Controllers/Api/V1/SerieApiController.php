@@ -27,7 +27,7 @@ class SerieApiController extends Controller
             }])
             ->orderBy('season_number')
             ->get();
-
+        $contentType = $serie->content_type;
         // Obtem os gêneros da série atual
         $genres = $serie->genres;
 
@@ -45,6 +45,7 @@ class SerieApiController extends Controller
             'serie' => $serie,
             'seasons' => $seasons,
             'related' => $relatedSeries,
+            'content_type' => $contentType
         ]);
     }
 }

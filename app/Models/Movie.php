@@ -17,6 +17,7 @@ class Movie extends Model
         'backdrop_url',
         'runtime',
         'rating',
+        'content_type', // Adicionado aqui
     ];
 
     public function genres()
@@ -32,5 +33,14 @@ class Movie extends Model
     public function watchlistedBy()
     {
         return $this->morphToMany(User::class, 'content', 'watchlist')->withTimestamps();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($movie) {
+            $movie->content_type = 'movie';
+        });
     }
 }

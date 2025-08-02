@@ -22,6 +22,7 @@ class MovieApiController extends Controller
     {
         $movie = Movie::with('genres')->findOrFail($id);
         $links = MoviePlayLink::where('movie_id', $movie->id)->get();
+        $contentType = $movie->content_type;
 
         // Obtem os gêneros do filme atual
         $genres = $movie->genres;
@@ -40,6 +41,7 @@ class MovieApiController extends Controller
             'movie' => $movie,
             'links' => $links,
             'related' => $relatedMovies,
+            'content_type' => $contentType
         ]);
     }
 }

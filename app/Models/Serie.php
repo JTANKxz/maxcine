@@ -15,7 +15,8 @@ class Serie extends Model
         'overview',
         'poster_url',
         'backdrop_url',
-        'rating'
+        'rating',
+        'content_type', // Adicionado aqui
     ];
 
     public function genres()
@@ -43,5 +44,14 @@ class Serie extends Model
     public function watchlistedBy()
     {
         return $this->morphToMany(User::class, 'content', 'watchlist')->withTimestamps();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($serie) {
+            $serie->content_type = 'serie';
+        });
     }
 }

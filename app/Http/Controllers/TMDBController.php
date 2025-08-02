@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 
 class TMDBController extends Controller
 {
-    private $apiKey = 'apikeyhere';
+    private $apiKey = 'edcd52275afd8b8c152c82f1ce3933a2';
     public function index()
     {
         return view('dashboard.tmdb.index');
@@ -271,7 +271,7 @@ class TMDBController extends Controller
     public function importSeasons(Serie $serie)
     {
         $tmdbId = $serie->tmdb_id;
-        $apiKey = 'apikeyhere'; // ou use config('services.tmdb.key')
+        $apiKey = 'edcd52275afd8b8c152c82f1ce3933a2'; // ou use config('services.tmdb.key')
 
         $response = Http::get("https://api.themoviedb.org/3/tv/{$tmdbId}?api_key={$apiKey}&language=pt-BR");
         if ($response->failed()) {
