@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomHomeSection;
+use App\Models\CustomHomeSectionItem;
 use App\Models\Movie;
 use App\Models\Order;
 use App\Models\Season;
@@ -279,6 +281,47 @@ class DashboardController extends Controller
     {
         $orders = Order::with('user')->orderByDesc('id')->paginate(20);
         return view('dashboard.orders.index', compact('orders'));
+    }
+
+
+    public function homeSections()
+    {
+        $sections = CustomHomeSection::all();
+        return view('dashboard.sections.index', compact('sections'));
+    }
+
+    public function homeSectionsCreate()
+    {
+        return view('dashboard.sections.create');
+    }
+
+    public function homeSectionsStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'order' => 'nullable|integer',
+            'items' => 'required|array|min:1',
+            'items.*.content_id' => 'required|integer',
+            'items.*.content_type' => 'required|string|in:movie,serie',
+            'items.*.order' => 'nullable|integer',
+        ]);
+
+        $section = CustomHomeSection::create([
+            'name' => $request->name,
+            'order' => $request->order ?? 0,
+            'active' => true,
+        ]);
+
+        foreach ($request->items as $item) {
+            CustomHomeSectionItem::create([
+                'section_id' => $section->id,
+                'content_id' => $item['content_id'],
+                'content_type' => $item['content_type'],
+                'order' => $item['order'] ?? 0,
+            ]);
+        }
+
+        return redirect()->route('sections.index')->with('success', 'Seção criada com sucesso!');
     }
 
     public function destroyChannel(TVChannel $channel)
