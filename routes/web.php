@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 //APISUSE
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\Api\V1\MovieController as ApiMovieController;
+use App\Http\Controllers\Api\V1\SearchApiController;
 use App\Http\Controllers\Api\V1\SerieApiController;
 use App\Http\Controllers\AplicativoController;
 use App\Http\Controllers\OrderController;
@@ -170,3 +171,5 @@ Route::get('/v1/series', [SerieApiController::class, 'index']);
 Route::get('/v1/series/{id}', [SerieApiController::class, 'show']);
 
 Route::get('/v1/genre/{id}', [GenreApiController::class,'show']);
+
+Route::get('/v1/search/{query}', [SearchApiController::class,'search']);
