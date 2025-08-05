@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CustomSectionApiController;
 use App\Http\Controllers\Api\V1\GenreApiController;
 use App\Http\Controllers\Api\V1\HomeApiController;
 use App\Http\Controllers\Api\V1\HomeSectionApiController;
@@ -179,5 +180,7 @@ Route::get('/v1/series', [SerieApiController::class, 'index']);
 Route::get('/v1/series/{id}', [SerieApiController::class, 'show']);
 
 Route::get('/v1/genre/{id}', [GenreApiController::class,'show']);
+
+Route::get('/v1/section/{id}', [CustomSectionApiController::class,'show']);
 
 Route::get('/v1/search/{query}', [SearchApiController::class,'search']);
