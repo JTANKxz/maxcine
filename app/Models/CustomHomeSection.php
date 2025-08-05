@@ -16,6 +16,8 @@ class CustomHomeSection extends Model
     // Relação 1:N com os itens da seção
     public function items(): HasMany
     {
-        return $this->hasMany(CustomHomeSectionItem::class, 'section_id')->orderBy('order');
+        return $this->hasMany(CustomHomeSectionItem::class, 'section_id')
+            ->orderBy('order')
+            ->limit(10); // ⬅️ limita a 10
     }
 }

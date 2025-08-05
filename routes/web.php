@@ -180,6 +180,4 @@ Route::get('/v1/series/{id}', [SerieApiController::class, 'show']);
 
 Route::get('/v1/genre/{id}', [GenreApiController::class,'show']);
 
-Route::get('/v1/home-sections', [HomeSectionApiController::class,'index']);
-
 Route::get('/v1/search/{query}', [SearchApiController::class,'search']);

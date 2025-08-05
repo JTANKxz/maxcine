@@ -33,7 +33,7 @@ class HomeSectionApiController extends Controller
                     'slug' => $content->slug,
                     'year' => $content->year,
                     'rating' => $content->rating,
-                    'backdrop_url' => $content->backdrop_url,
+                    'poster_url' => $content->poster_url,
                     'type' => $item->content_type,
                 ];
             })->filter(); // remove nulls
