@@ -40,6 +40,7 @@ class MovieApiController extends Controller
 
         // AutoEmbed: links gerados dinamicamente
         $autoEmbeds = AutoEmbedUrls::where('active', true)
+            ->whereIn('content_type', ['movie', 'both']) // <--- também busca os "both"
             ->orderBy('order')
             ->get()
             ->map(function ($embed) use ($movie) {
