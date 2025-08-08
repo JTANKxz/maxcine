@@ -38,6 +38,15 @@
                                 <td>
                                     <a href="{{ route('series.seasons.index', ['serie' => $serie->id]) }}"
                                         class="btn btn-sm btn-secondary" title="Manager Seasons"><i class="fas fa-link"></i></a>
+
+                                    <form action="{{ route('series.destroy', ['serie' => $serie->id]) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" title="Excluir Série"
+                                            onclick="return confirm('Tem certeza que deseja excluir esta série?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

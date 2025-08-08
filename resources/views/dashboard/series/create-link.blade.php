@@ -15,28 +15,28 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label for="name" class="block font-semibold mb-1">Nome do Player</label>
-                <input type="text" name="name" id="name" class="w-full p-2 rounded bg-gray-900 border border-gray-600" required>
+                <label for="name">Nome do Player</label>
+                <input type="text" name="name" id="name" class="form-control-like" required>
             </div>
 
             <div>
-                <label for="quality" class="block font-semibold mb-1">Qualidade</label>
-                <input type="text" name="quality" id="quality" class="w-full p-2 rounded bg-gray-900 border border-gray-600" required>
+                <label for="quality">Qualidade</label>
+                <input type="text" name="quality" id="quality" class="form-control-like" required>
             </div>
 
             <div>
-                <label for="order" class="block font-semibold mb-1">Ordem</label>
-                <input type="number" name="order" id="order" class="w-full p-2 rounded bg-gray-900 border border-gray-600" required>
+                <label for="order">Ordem</label>
+                <input type="number" name="order" id="order" class="form-control-like" required>
             </div>
 
             <div>
-                <label for="url" class="block font-semibold mb-1">URL</label>
-                <input type="url" name="url" id="url" class="w-full p-2 rounded bg-gray-900 border border-gray-600" required>
+                <label for="url">URL</label>
+                <input type="url" name="url" id="url" class="form-control-like" required>
             </div>
 
             <div>
-                <label for="type" class="block font-semibold mb-1">Tipo</label>
-                <select name="type" id="type" class="w-full p-2 rounded bg-gray-900 border border-gray-600" required>
+                <label for="type">Tipo</label>
+                <select name="type" id="type" class="form-control-like" required>
                     <option value="mp4">MP4</option>
                     <option value="mkv">MKV</option>
                     <option value="doodstream">Doodstream</option>
@@ -48,8 +48,8 @@
             </div>
 
             <div>
-                <label for="player_sub" class="block font-semibold mb-1">Tipo de Assinatura</label>
-                <select name="player_sub" id="player_sub" class="w-full p-2 rounded bg-gray-900 border border-gray-600" required>
+                <label for="player_sub">Tipo de Assinatura</label>
+                <select name="player_sub" id="player_sub" class="form-control-like" required>
                     <option value="free">Free</option>
                     <option value="premium">Premium</option>
                 </select>
@@ -57,9 +57,9 @@
         </div>
 
         <div class="mt-6">
-            <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded shadow">
-                Adicionar Link
-            </button>
+            <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Adicionar Link
+        </button>
         </div>
     </form>
 </div>

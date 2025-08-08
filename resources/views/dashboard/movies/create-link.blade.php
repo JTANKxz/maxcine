@@ -17,7 +17,7 @@
 
         <div class="form-group">
             <label for="name">Nome do Player</label>
-            <input type="text" name="name" id="name" class="form-control-like" required>
+            <input type="text" name="name" id="name"  required>
         </div>
 
         <div class="form-group">

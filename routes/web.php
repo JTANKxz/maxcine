@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ChannelsApiController;
 use App\Http\Controllers\Api\V1\CustomSectionApiController;
 use App\Http\Controllers\Api\V1\GenreApiController;
 use App\Http\Controllers\Api\V1\HomeApiController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\Api\V1\SearchApiController;
 use App\Http\Controllers\Api\V1\SerieApiController;
 use App\Http\Controllers\AplicativoController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SectionsController;
 
 Route::get('/filme/{id}', [MovieController::class, 'showByTmdb'])->name('movie.by.tmdb');
 
@@ -137,16 +139,16 @@ Route::prefix('admin')->middleware('admin')->group(function () {
         Route::post('/{serie}/import-seasons', [DashboardController::class, 'importSeasons'])->name('import.seasons');
         Route::post('/{serie}/import-episodes', [DashboardController::class, 'importEpisodes'])->name('import.episodes');
         Route::get('/series/search', [DashboardController::class, 'searchSeries'])->name('search');
-
     });
 
     // Episodes✅
     Route::prefix('episodes')->name('episodes.')->group(function () {
-        Route::get('/{episode}/links', [EpisodePlayLinkController::class, 'create'])->name('links.create');
-        Route::post('/links', [EpisodePlayLinkController::class, 'store'])->name('links.store');
+        Route::get('/{episode}/links', [EpisodePlayLinkController::class, 'index'])->name('links.index');
+        Route::get('/{episode}/links/create', [EpisodePlayLinkController::class, 'create'])->name('links.create');
+        Route::post('/links/store', [EpisodePlayLinkController::class, 'store'])->name('links.store');
         Route::get('/links/{link}/edit', [EpisodePlayLinkController::class, 'edit'])->name('links.edit');
-        Route::put('/links/{link}', [EpisodePlayLinkController::class, 'update'])->name('links.update');
-        Route::delete('/links/{link}', [EpisodePlayLinkController::class, 'destroy'])->name('links.destroy');
+        Route::put('/links/{link}/update', [EpisodePlayLinkController::class, 'update'])->name('links.update');
+        Route::delete('/links/{link}/delete', [EpisodePlayLinkController::class, 'destroy'])->name('links.destroy');
     });
 
     // Sliders✅
@@ -165,9 +167,12 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     //sections
     Route::prefix('sections')->name('sections.')->group(function () {
-        Route::get('/', [DashboardController::class, 'homeSections'])->name('index');
-        Route::get('/create', [DashboardController::class, 'homeSectionsCreate'])->name('create');
-        Route::post('/store', [DashboardController::class, 'homeSectionsStore'])->name('store');
+        Route::get('/', [SectionsController::class, 'index'])->name('index');
+        Route::get('/create', [SectionsController::class, 'create'])->name('create');
+        Route::post('/store', [SectionsController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [SectionsController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [SectionsController::class, 'update'])->name('update');
+        Route::delete('/{section}', [SectionsController::class, 'destroy'])->name('destroy');
     });
 });
 
@@ -179,8 +184,10 @@ Route::get('/v1/movies/{id}', [MovieApiController::class, 'show']);
 Route::get('/v1/series', [SerieApiController::class, 'index']);
 Route::get('/v1/series/{id}', [SerieApiController::class, 'show']);
 
-Route::get('/v1/genre/{id}', [GenreApiController::class,'show']);
+Route::get('/v1/genre/{id}', [GenreApiController::class, 'show']);
 
-Route::get('/v1/section/{id}', [CustomSectionApiController::class,'show']);
+Route::get('/v1/section/{id}', [CustomSectionApiController::class, 'show']);
 
-Route::get('/v1/search/{query}', [SearchApiController::class,'search']);
+Route::get('/v1/search/{query}', [SearchApiController::class, 'search']);
+
+Route::get('/v1/tv-channels', [ChannelsApiController::class, 'index']);

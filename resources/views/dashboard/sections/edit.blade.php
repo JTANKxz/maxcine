@@ -1,25 +1,26 @@
 @extends('layouts.admin')
 
-@section('title', 'Nova Seção Personalizada')
+@section('title', 'Editar Seção Personalizada')
 
 @section('content')
     <section class="container mx-auto py-8 max-w-3xl">
-        <h3 class="text-2xl font-bold mb-4">Nova Seção Personalizada</h3>
+        <h3 class="text-2xl font-bold mb-4">Editar Seção: {{ $section->name }}</h3>
 
         <x-alert />
 
-        <form action="{{ route('sections.store') }}" method="POST" id="sectionForm"
+        <form action="{{ route('sections.update', $section->id) }}" method="POST" id="sectionForm"
             class="bg-gray-800 p-6 rounded text-white">
             @csrf
+            @method('PUT')
 
             <div class="form-group mb-4">
                 <label for="name">Nome da Seção</label>
-                <input type="text" name="name" class="form-control-like" required>
+                <input type="text" name="name" class="form-control-like" value="{{ $section->name }}" required>
             </div>
 
             <div class="form-group mb-4">
                 <label for="order">Ordem da Seção</label>
-                <input type="number" name="order" class="form-control-like" value="0">
+                <input type="number" name="order" class="form-control-like" value="{{ $section->order }}">
             </div>
 
             <hr class="my-4 border-gray-600">
@@ -41,18 +42,37 @@
 
             <div class="my-4">
                 <h4 class="text-lg font-semibold mb-2">Itens Selecionados</h4>
-                <ul id="selectedItems" class="space-y-2"></ul>
+                <ul id="selectedItems" class="space-y-2">
+                    @foreach ($section->items as $index => $item)
+                        <li class="bg-gray-700 p-2 rounded flex items-center justify-between gap-4">
+                            <div>
+                                <strong>{{ $item->content->title ?? 'Sem título' }}</strong>
+                                <small class="text-sm">({{ $item->content_type }})</small>
+                                <input type="hidden" name="items[{{ $index }}][content_id]" value="{{ $item->content_id }}">
+                                <input type="hidden" name="items[{{ $index }}][content_type]" value="{{ $item->content_type }}">
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <label>Ordem:</label>
+                                <input type="number" name="items[{{ $index }}][order]" value="{{ $item->order }}"
+                                    class="form-control-like w-20">
+                                <button type="button" class="btn btn-secondary removeItem">
+                                    <i class="fas fa-eraser"></i> Remover
+                                </button>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
 
             <button type="submit" class="btn btn-primary mt-4">
-                <i class="fas fa-save"></i> Criar Seção
+                <i class="fas fa-save"></i> Salvar Alterações
             </button>
         </form>
     </section>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        let itemIndex = 0;
+        let itemIndex = {{ $section->items->count() }};
 
         $('#type_select').change(function () {
             $('#search').val('');
@@ -69,7 +89,7 @@
             }
 
             $.ajax({
-                url: "{{ route('sliders.search') }}", // sua rota de busca
+                url: "{{ route('sliders.search') }}",
                 method: 'GET',
                 data: { type, query },
                 success: function (data) {
@@ -80,12 +100,11 @@
                             let year = item.year ? `<span class="text-sm text-gray-400 ml-2">(${item.year})</span>` : '';
 
                             html += `<li class="p-2 hover:bg-gray-700 cursor-pointer flex items-center justify-between"
-        data-id="${item.id}"
-        data-title="${title}"
-        data-type="${type}">
-        <span>${title} ${year}</span>
-    </li>`;
-
+                                    data-id="${item.id}"
+                                    data-title="${title}"
+                                    data-type="${type}">
+                                    <span>${title} ${year}</span>
+                                </li>`;
                         });
                     } else {
                         html = '<li class="p-2 text-red-400">Nenhum resultado encontrado</li>';
@@ -101,19 +120,18 @@
             const type = $(this).data('type');
 
             const newItem = `
-                                <li class="bg-gray-700 p-2 rounded flex items-center justify-between gap-4">
-                                    <div>
-                                        <strong>${title}</strong> <small class="text-sm">(${type})</small>
-                                        <input type="hidden" name="items[${itemIndex}][content_id]" value="${id}">
-                                        <input type="hidden" name="items[${itemIndex}][content_type]" value="${type}">
-                                    </div>
-                                    <div class="flex gap-2 items-center">
-                                        <label>Ordem:</label>
-                                        <input type="number" name="items[${itemIndex}][order]" value="0" class="form-control-like w-20">
-                                        <button type="button" class="btn btn-secondary"><i class="fas fa-eraser"></i> Remover</button>
-                                    </div>
-                                </li>
-                            `;
+                    <li class="bg-gray-700 p-2 rounded flex items-center justify-between gap-4">
+                        <div>
+                            <strong>${title}</strong> <small class="text-sm">(${type})</small>
+                            <input type="hidden" name="items[${itemIndex}][content_id]" value="${id}">
+                            <input type="hidden" name="items[${itemIndex}][content_type]" value="${type}">
+                        </div>
+                        <div class="flex gap-2 items-center">
+                            <label>Ordem:</label>
+                            <input type="number" name="items[${itemIndex}][order]" value="0" class="form-control-like w-20">
+                            <button type="button" class="btn btn-secondary removeItem"><i class="fas fa-eraser"></i> Remover</button>
+                        </div>
+                    </li>`;
 
             $('#selectedItems').append(newItem);
             $('#search').val('');
@@ -138,10 +156,6 @@
         #results li:hover {
             background-color: #4c4c70;
             transform: scale(1.02);
-        }
-
-        #results li:last-child {
-            border-bottom: none;
         }
 
         #results {
@@ -188,5 +202,4 @@
             padding: 4px;
         }
     </style>
-
 @endsection

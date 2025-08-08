@@ -283,45 +283,14 @@ class DashboardController extends Controller
         return view('dashboard.orders.index', compact('orders'));
     }
 
-
-    public function homeSections()
+    public function destroySerie(Serie $serie)
     {
-        $sections = CustomHomeSection::all();
-        return view('dashboard.sections.index', compact('sections'));
-    }
-
-    public function homeSectionsCreate()
-    {
-        return view('dashboard.sections.create');
-    }
-
-    public function homeSectionsStore(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'order' => 'nullable|integer',
-            'items' => 'required|array|min:1',
-            'items.*.content_id' => 'required|integer',
-            'items.*.content_type' => 'required|string|in:movie,serie',
-            'items.*.order' => 'nullable|integer',
-        ]);
-
-        $section = CustomHomeSection::create([
-            'name' => $request->name,
-            'order' => $request->order ?? 0,
-            'active' => true,
-        ]);
-
-        foreach ($request->items as $item) {
-            CustomHomeSectionItem::create([
-                'section_id' => $section->id,
-                'content_id' => $item['content_id'],
-                'content_type' => $item['content_type'],
-                'order' => $item['order'] ?? 0,
-            ]);
+        try {
+            $serie->delete();
+            return redirect()->route('series.index')->with('success', 'Série deletada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->route('series.index')->with('error', 'Failed to delete series.');
         }
-
-        return redirect()->route('sections.index')->with('success', 'Seção criada com sucesso!');
     }
 
     public function destroyChannel(TVChannel $channel)

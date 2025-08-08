@@ -19,7 +19,7 @@ class HomeApiController extends Controller
         $movies = Movie::orderBy('id', 'desc')->take(15)->get();
         $sliders = Slider::with(['serie' => fn($q) => $q->withCount('seasons')])->orderBy('id', 'desc')->get();
 
-        $sections = CustomHomeSection::with(['items'])->where('active', true)->orderBy('order')->get();
+        $sections = CustomHomeSection::with(['items'])->where('active', true)->orderBy('order', 'desc')->get();
 
         $formattedSections = $sections->map(function ($section) {
             $items = $section->items->sortBy('order')->map(function ($item) {

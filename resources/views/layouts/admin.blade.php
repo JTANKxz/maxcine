@@ -1057,6 +1057,20 @@
                         </ul>
                     </li>
 
+                    <li class="has-submenu">
+                        <a href="#">
+                            <span class="link-content"><i class="fas fa-cog"></i>App Config</span>
+                            <i class="fas fa-chevron-down submenu-indicator"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{{ route('sections.index') }}">
+                                    <span class="link-content"><i class="fas fa-th-large"></i> Seções</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     @auth
                         <li>
                             <a href="{{ route('auth.destroy') }}">

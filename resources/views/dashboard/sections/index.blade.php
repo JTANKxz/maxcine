@@ -30,13 +30,14 @@
                                 <td>{{ $section->name }}</td>
                                 <td>{{ $section->active ? 'Ativo' : 'Inativo' }}</td>
                                 <td>
-                                    {{-- <!-- <form action="{{ route('sections.destroy', $section->id) }}" method="POST" style="display:inline;"> --}}
-                                        {{-- @csrf
+                                    <a href="{{ route('sections.edit', $section->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
+                                    <form action="{{ route('sections.destroy', $section->id) }}" method="POST" style="display:inline;">
+                                        @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-secondary"
                                             onclick="return confirm('Tem certeza que deseja excluir esta seção?')"><i
                                                 class="fas fa-trash"></i></button>
-                                    </form> --> --}}
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

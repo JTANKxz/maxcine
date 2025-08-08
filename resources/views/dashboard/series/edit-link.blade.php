@@ -8,11 +8,11 @@
     <h1 class="text-3xl font-bold text-white mb-6">Editar Link de Player</h1>
     <x-alert />
     
-    <form action="{{ route('movies.links.update', ['link' => $link->id]) }}" method="POST" class="bg-gray-800 p-6 rounded shadow text-white">
+    <form action="{{ route('episodes.links.update', ['link' => $link->id]) }}" method="POST" class="bg-gray-800 p-6 rounded shadow text-white">
         @csrf
         @method('PUT')
 
-        <input type="hidden" name="movie_id" value="{{ $link->movie_id }}">
+        {{-- <input type="hidden" name="movie_id" value="{{ $link->movie_id }}"> --}}
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
