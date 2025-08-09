@@ -8,9 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
+// Importar a trait do Sanctum para API tokens
+use Laravel\Sanctum\HasApiTokens;
+
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    // Use a trait HasApiTokens junto com as outras
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.

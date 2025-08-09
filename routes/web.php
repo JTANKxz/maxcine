@@ -1,12 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\V1\ChannelsApiController;
-use App\Http\Controllers\Api\V1\CustomSectionApiController;
-use App\Http\Controllers\Api\V1\GenreApiController;
-use App\Http\Controllers\Api\V1\HomeApiController;
-use App\Http\Controllers\Api\V1\HomeSectionApiController;
-use App\Http\Controllers\Api\V1\MovieApiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EpisodePlayLinkController;
 use App\Http\Controllers\GenreController;
@@ -19,15 +14,20 @@ use App\Http\Controllers\TVChannelController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-
 //APISUSE
-use App\Http\Controllers\MovieController;
-use App\Http\Controllers\Api\V1\MovieController as ApiMovieController;
+use App\Http\Controllers\Api\V1\MovieApiController;
+use App\Http\Controllers\Api\v1\AuthApiController;
+use App\Http\Controllers\Api\V1\ChannelsApiController;
+use App\Http\Controllers\Api\V1\CustomSectionApiController;
+use App\Http\Controllers\Api\V1\GenreApiController;
+use App\Http\Controllers\Api\V1\HomeApiController;
 use App\Http\Controllers\Api\V1\SearchApiController;
 use App\Http\Controllers\Api\V1\SerieApiController;
 use App\Http\Controllers\AplicativoController;
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SectionsController;
+use App\Http\Middleware\VerifyCsrfToken;
 
 Route::get('/filme/{id}', [MovieController::class, 'showByTmdb'])->name('movie.by.tmdb');
 
@@ -174,6 +174,12 @@ Route::prefix('admin')->middleware('admin')->group(function () {
         Route::put('/{id}', [SectionsController::class, 'update'])->name('update');
         Route::delete('/{section}', [SectionsController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('app-config')->name('config.')->group(function () {
+        Route::get('/', [ConfigController::class, 'index'])->name('index');
+        Route::get('/notifications', [ConfigController::class, 'pushNotification'])->name('notifications');
+    });
+
 });
 
 //API ROUTES
@@ -190,4 +196,13 @@ Route::get('/v1/section/{id}', [CustomSectionApiController::class, 'show']);
 
 Route::get('/v1/search/{query}', [SearchApiController::class, 'search']);
 
-Route::get('/v1/tv-channels', [ChannelsApiController::class, 'index']);
+Route::get('/v1/tv-channels', [ChannelsApiController::class, 'index']); 
+
+// Route::middleware([VerifyCsrfToken::class])->group(function () {
+//     Route::post('/v1/login', [AuthApiController::class, 'login']);
+//     Route::post('/v1/logout', [AuthApiController::class, 'logout']);
+// });
+
+// Route::get('/v1/teste', function () {
+//     return response()->json(['message' => 'Test route']);
+// });

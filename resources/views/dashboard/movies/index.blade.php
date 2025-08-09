@@ -50,7 +50,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-sm btn-danger" title="Excluir"
-                                            onclick="confirmDelete({{ $movie->id }})">
+                                            >
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
