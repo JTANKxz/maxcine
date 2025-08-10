@@ -313,8 +313,4 @@
             }
         }
     </style>
-
-
-
-
 @endsection

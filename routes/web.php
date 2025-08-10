@@ -15,14 +15,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 //APISUSE
-use App\Http\Controllers\Api\V1\MovieApiController;
-use App\Http\Controllers\Api\v1\AuthApiController;
-use App\Http\Controllers\Api\V1\ChannelsApiController;
-use App\Http\Controllers\Api\V1\CustomSectionApiController;
-use App\Http\Controllers\Api\V1\GenreApiController;
-use App\Http\Controllers\Api\V1\HomeApiController;
-use App\Http\Controllers\Api\V1\SearchApiController;
-use App\Http\Controllers\Api\V1\SerieApiController;
 use App\Http\Controllers\AplicativoController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\OrderController;
@@ -181,28 +173,3 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     });
 
 });
-
-//API ROUTES
-Route::get('/v1/home', [HomeApiController::class, 'index']);
-Route::get('/v1/movies', [MovieApiController::class, 'index']);
-Route::get('/v1/movies/{id}', [MovieApiController::class, 'show']);
-
-Route::get('/v1/series', [SerieApiController::class, 'index']);
-Route::get('/v1/series/{id}', [SerieApiController::class, 'show']);
-
-Route::get('/v1/genre/{id}', [GenreApiController::class, 'show']);
-
-Route::get('/v1/section/{id}', [CustomSectionApiController::class, 'show']);
-
-Route::get('/v1/search/{query}', [SearchApiController::class, 'search']);
-
-Route::get('/v1/tv-channels', [ChannelsApiController::class, 'index']); 
-
-// Route::middleware([VerifyCsrfToken::class])->group(function () {
-//     Route::post('/v1/login', [AuthApiController::class, 'login']);
-//     Route::post('/v1/logout', [AuthApiController::class, 'logout']);
-// });
-
-// Route::get('/v1/teste', function () {
-//     return response()->json(['message' => 'Test route']);
-// });
