@@ -44,7 +44,7 @@ class AuthApiController extends Controller
             $user = User::where('email', $validated['email'])->first();
             $token = $user->createToken('auth_token', ['post:read', 'post:create'])->plainTextToken;
 
-            return response()->json(['user' => $user, 'token' => $token], 200);
+            return response()->json(['user' => $user, 'token' => $token, 'token_type' => 'Bearer'], 200);
         }
 
         return response()->json(['message' => 'Credenciais inválidas'], 401);

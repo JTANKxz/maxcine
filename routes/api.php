@@ -18,6 +18,11 @@ Route::get('/v1/teste', [AuthApiController::class, 'teste']);
 
 Route::post('/v1/register', [AuthApiController::class,'register']);
 Route::post('/v1/login', [AuthApiController::class,'login']);
+Route::post('/v1/logout', [AuthApiController::class, 'logout']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    
+});
 
 
 Route::get('/v1/home', [HomeApiController::class, 'index']);
